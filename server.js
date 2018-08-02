@@ -14,19 +14,25 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
+//Requires our API Route
 require("./app/routing/apiRoutes.js")(app);
-// require("./app/routing/htmlRoutes.js")(app);
 
+//Requires our HTML Routes
+require("./app/routing/htmlRoutes.js")(app);
 
-
-app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname + "/app/public", 'home.html'));
+//Person Search in API
+app.get("/api/friends/:person", function (req, res) {
+    var chosen = req.params.person;
+    console.log(chosen);
+    for (var i = 0; i < friends.length; i++) {
+        if (chosen === friends[i].routeName) {
+            return res.json(friends[i]);
+        }
+    }
+    return res.json(false);
 });
 
-app.get("/survey", function (req, res) {
-    res.sendFile(path.join(__dirname + "/app/public", "survey.html"));
-});
-
+//Makes sure our port is listening
 app.listen(PORT, function () {
     console.log("App listening on PORT: " + PORT);
 });
