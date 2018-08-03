@@ -1,3 +1,5 @@
+//The Data
+
 const peopleArray = [
     {
         name: 'Jason Felipe',
