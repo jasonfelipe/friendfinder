@@ -2,6 +2,7 @@
 // =============================================================
 const express = require("express");
 const bodyParser = require("body-parser");
+const path = require("path");
 
 // Sets up the Express App
 // =============================================================
@@ -15,11 +16,12 @@ app.use(bodyParser.json());
 
 //Requires our API Route
 require("./app/routing/apiRoutes.js")(app);
-
 //Requires our HTML Routes
 require("./app/routing/htmlRoutes.js")(app);
 
-//Makes sure our port is listening and the server is started
+
+//Makes sure our port is listening
 app.listen(PORT, function () {
     console.log("App listening on PORT: " + PORT);
 });
+

@@ -29,16 +29,6 @@
 </style>
 
 <body>
-    <div class="container">
-        <h1>Test Div</h1>
-        <select id="testBox" data-placeholder="Select Your Options">
-            <option value="1">Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
-        </select>
-
-
-    </div>
 
     <div class="container">
         <h1 class="text-center">Survey Questions!</h1>
@@ -349,7 +339,7 @@
                 <div class="container">
                     <p>
                         <a href="/api/friends">API Friends List</a> |
-                        <a href="https://github.com/jasonrfelipe">GitHub Repo</a>
+                        <a href="https://github.com/afhaque/friendfinder">GitHub Repo</a>
                     </p>
                 </div>
             </footer>
@@ -370,7 +360,7 @@
                     </div>
                     <div class="modal-body">
                         <h2 id="match-name"></h2>
-                        <img id="match-img" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg" alt="">
+                        <!-- <img id="match-img" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg" alt=""> -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -383,11 +373,10 @@
     </div>
 
     <script type="text/javascript">
-        $('#testBox').chosen({
-            disable_search_threshold: 10,
-            no_results_text: "Oops, nothing found!",
-            width: "95%"
-        });
+        
+        function getSum(total,num){
+            return total + num;
+        }
 
         // Chosen CSS
         var config = {
@@ -435,6 +424,7 @@
             // If all required fields are filled
             if (validateForm()) {
                 // Create an object for the user"s data
+
                 var userData = {
                     name: $("#name").val(),
                     photo: $("#photo").val(),
@@ -451,15 +441,11 @@
                         $("#q10").val()
                     ]
                 };
-
-                console.log("This is your post", userData);
+                console.log(userData);
 
                 // AJAX post the data to the friends API.
-                $.post("/api/friends", userData, 
-                function (data) {
-                    event.preventDefault();
-                    console.log(data)
-                    console.log("It's been posted from survey html" ,userData);
+                $.post("/api/friends", userData, function (data) {
+
                     // Grab the result from the AJAX post so that the best match's name and photo are displayed.
                     // $("#match-name").text(data.name);
                     // $("#match-img").attr("src", data.photo);
@@ -468,6 +454,28 @@
                     // $("#results-modal").modal("toggle");
 
                 });
+
+                $.ajax({ url: "/api/friends", method: "GET"}).then(function(peopleArray){
+                    
+                    for (let i = 0; i < peopleArray.length; i++){
+
+                        // console.log("original scores", peopleArray[i].scores);
+
+                        //test to see if it converts to numbers
+                        let numberedScores = $.map(peopleArray[i].scores, Number);
+
+                        // console.log(numberedScores);
+                        let subResults = userData.scores.map(function(item,index){
+                            return Math.abs(item - numberedScores[index]); 
+                        });
+                        // console.log(subResults);
+                        
+                        let matchmaker = subResults.reduce(getSum);
+                        
+                        console.log(matchmaker);
+                    }
+                });
+
             } else {
                 alert("Please fill out all fields before submitting!");
             }
