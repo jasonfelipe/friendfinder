@@ -2,7 +2,6 @@
 // =============================================================
 const express = require("express");
 const bodyParser = require("body-parser");
-const path = require("path");
 
 // Sets up the Express App
 // =============================================================
@@ -20,19 +19,7 @@ require("./app/routing/apiRoutes.js")(app);
 //Requires our HTML Routes
 require("./app/routing/htmlRoutes.js")(app);
 
-//Person Search in API
-app.get("/api/friends/:person", function (req, res) {
-    var chosen = req.params.person;
-    console.log(chosen);
-    for (var i = 0; i < friends.length; i++) {
-        if (chosen === friends[i].routeName) {
-            return res.json(friends[i]);
-        }
-    }
-    return res.json(false);
-});
-
-//Makes sure our port is listening
+//Makes sure our port is listening and the server is started
 app.listen(PORT, function () {
     console.log("App listening on PORT: " + PORT);
 });

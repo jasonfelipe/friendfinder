@@ -452,11 +452,13 @@
                     ]
                 };
 
-                console.log(userData);
+                console.log("This is your post", userData);
 
                 // AJAX post the data to the friends API.
                 $.post("/api/friends", userData, 
                 function (data) {
+                    event.preventDefault();
+                    console.log(data)
                     console.log("It's been posted from survey html" ,userData);
                     // Grab the result from the AJAX post so that the best match's name and photo are displayed.
                     // $("#match-name").text(data.name);
