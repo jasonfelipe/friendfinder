@@ -4,6 +4,9 @@ A small 10 question survey that the user completes, and after
 the survey gets data from the friends.js, does some magic maths 
 and spits out a closest match!
 
+## LINK TO HOSTED APP 
+https://sleepy-hollows-81315.herokuapp.com/ 
+
 # Gettting Started
 Please download node.js and 'npm i' the files in order to run the server file. 
 After downloading the packages, run server.js with node, and wait for the PORT.
