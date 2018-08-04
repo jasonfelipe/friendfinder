@@ -360,7 +360,7 @@
                     </div>
                     <div class="modal-body">
                         <h2 id="match-name"></h2>
-                        <!-- <img id="match-img" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg" alt=""> -->
+                        <img id="match-img" src="http://via.placeholder.com/350x150" alt="placeholder">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -373,8 +373,8 @@
     </div>
 
     <script type="text/javascript">
-        
-        function getSum(total,num){
+
+        function getSum(total, num) {
             return total + num;
         }
 
@@ -443,21 +443,14 @@
                 };
                 console.log(userData);
 
-                // AJAX post the data to the friends API.
-                $.post("/api/friends", userData, function (data) {
+                $.ajax({ url: "/api/friends", method: "GET" }).then(function (peopleArray) {
 
-                    // Grab the result from the AJAX post so that the best match's name and photo are displayed.
-                    // $("#match-name").text(data.name);
-                    // $("#match-img").attr("src", data.photo);
+                    const matchmaking = [];
 
-                    // // Show the modal with the best match
-                    // $("#results-modal").modal("toggle");
-
-                });
-
-                $.ajax({ url: "/api/friends", method: "GET"}).then(function(peopleArray){
-                    
-                    for (let i = 0; i < peopleArray.length; i++){
+                    //code to get the total of the differences
+                    //for each array, then pushes the difference
+                    //into the matchmaking array.
+                    for (let i = 0; i < peopleArray.length; i++) {
 
                         // console.log("original scores", peopleArray[i].scores);
 
@@ -465,16 +458,49 @@
                         let numberedScores = $.map(peopleArray[i].scores, Number);
 
                         // console.log(numberedScores);
-                        let subResults = userData.scores.map(function(item,index){
-                            return Math.abs(item - numberedScores[index]); 
+
+                        let subResults = userData.scores.map(function (item, index) {
+                            return Math.abs(item - numberedScores[index]);
                         });
                         // console.log(subResults);
-                        
+
                         let matchmaker = subResults.reduce(getSum);
-                        
-                        console.log(matchmaker);
+
+                        // console.log(matchmaker);
+                        matchmaking.push(matchmaker);
                     }
+                    // console.log(matchmaking);
+
+                    //finding the matchmaking
+                    goal = 0;
+                    const closest = matchmaking.reduce(function (prev, curr) {
+                        return (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev);
+                    });
+
+                    // console.log(matchmaking);
+                    // console.log("closest number", closest);
+                    for (let p = 0; p < matchmaking.length; p++) {
+                        if (matchmaking[p] == closest) {
+                            matchIndexNumber = matchmaking.indexOf(matchmaking[p]);
+                            // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+                            console.log(peopleArray[matchIndexNumber].name);
+                            console.log(peopleArray[matchIndexNumber].photo);
+        
+                            $("#match-name").text(peopleArray[matchIndexNumber].name);
+                            $("#match-img").attr("src", peopleArray[matchIndexNumber].photo);
+        
+                            // Show the modal with the best match
+                            $("#results-modal").modal("toggle");
+                        }
+                    }
+
                 });
+
+                // AJAX post the data to the friends API.
+                $.post("/api/friends", userData, function (data) {
+
+                });
+
 
             } else {
                 alert("Please fill out all fields before submitting!");
