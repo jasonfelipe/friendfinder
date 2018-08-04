@@ -19,7 +19,7 @@ const peopleArray = [
     },
     {
         name: 'Testing1',
-        photo: 'http://pluspng.com/img-png/png-hd-of-stick-figures-stick-figure-png-207.png',
+        photo: 'https://pluspng.com/img-png/png-hd-of-stick-figures-stick-figure-png-207.png',
         scores: [
             1,
             2,
@@ -35,7 +35,7 @@ const peopleArray = [
     },
     {
         name: 'Testing2',
-        photo: 'http://pluspng.com/img-png/png-hd-of-stick-figures-file-dclubley-stick-figure-png-480.png',
+        photo: 'https://pluspng.com/img-png/png-hd-of-stick-figures-file-dclubley-stick-figure-png-480.png',
         scores: [
             1,
             1,
@@ -51,7 +51,7 @@ const peopleArray = [
     },
     {
         name: 'Testing3',
-        photo: 'http://pluspng.com/img-png/png-hd-of-stick-figures-file-runner-stickman-png-1167.png',
+        photo: 'https://pluspng.com/img-png/png-hd-of-stick-figures-file-runner-stickman-png-1167.png',
         scores: [
             1,
             1,
