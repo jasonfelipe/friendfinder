@@ -5,7 +5,7 @@ the survey gets data from the friends.js, does some magic maths
 and spits out a closest match!
 
 ## LINK TO HOSTED APP 
-https://sleepy-hollows-81315.herokuapp.com/ 
+https://jfelipe-friendfinder.herokuapp.com/
 
 # Gettting Started
 Please download node.js and 'npm i' the files in order to run the server file. 
